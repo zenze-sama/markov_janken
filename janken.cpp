@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <algorithm>
+#include <numeric>
 
 using namespace std;
 
@@ -16,9 +17,53 @@ int playerWins = 0;
 int markovWins = 0;
 int ties = 0;
 
-char getMarkovMove() {
-    if (playerHistory.size() < 2) {
+char counterMove(char move) {
+    if (move == 'R') return 'P';
+    if (move == 'P') return 'S';
+    return 'R';
+}
+
+char getFrequencyBasedMove() {
+    map<char, int> freq;
+    for (char move : playerHistory) {
+        freq[move]++;
+    }
+    
+    if (freq.empty()) {
         return MOVES[rand() % 3];
+    }
+    
+    char mostCommon = max_element(freq.begin(), freq.end(), 
+        [](const auto& a, const auto& b) { return a.second < b.second; })->first;
+    return counterMove(mostCommon);
+}
+
+bool isRepeatingPattern() {
+    if (playerHistory.size() < 3) return false;
+    char prev1 = playerHistory.back();
+    char prev2 = playerHistory[playerHistory.size() - 2];
+    char prev3 = playerHistory[playerHistory.size() - 3];
+    return (prev1 == prev2 && prev2 == prev3);
+}
+
+char getAntiHumanMove() {
+    char repeatedMove = playerHistory.back();
+    vector<char> options;
+    for (char move : MOVES) {
+        if (move != repeatedMove) {
+            options.push_back(move);
+        }
+    }
+    return counterMove(options[rand() % options.size()]);
+}
+
+char getMarkovMove() {
+    if (playerHistory.size() >= 3 && isRepeatingPattern()) {
+        return getAntiHumanMove();
+    }
+
+    if (playerHistory.size() < 2) {
+        return getFrequencyBasedMove();
     }
 
     char prev2 = playerHistory[playerHistory.size() - 2];
@@ -26,7 +71,7 @@ char getMarkovMove() {
     auto key = make_pair(prev2, prev1);
 
     if (patternCounts[key].empty()) {
-        return MOVES[rand() % 3];
+        return getFrequencyBasedMove();
     }
 
     char predictedMove = max_element(
@@ -35,9 +80,7 @@ char getMarkovMove() {
         [](const auto& a, const auto& b) { return a.second < b.second; }
     )->first;
 
-    if (predictedMove == 'R') return 'P';
-    if (predictedMove == 'P') return 'S';
-    return 'R';
+    return counterMove(predictedMove);
 }
 
 string getWinner(char player, char markov) {
