@@ -13,4 +13,10 @@ I intend to refine this a little more, so I'll make a changelog here.
 <summary>Changelog:</summary>
 <br>
 1. Made the intiial commit. No optimizations yet.
+<br>
+2. Made counterMove to get a, coounter move, duh.
+   
+   Made getFrequencyBasedMove, this makes it so that I am not relied on a random move, rather we can count the most common move frm the player in playerHistory and use that, if empty, use random move.
+
+   Made isRepeatingPattern and getAntiHumanMove, it checks if the last move is repeated 3 times, if yes then it refrains from countering the same move again because humans dont use the same move 3 times a row. But this makes a stupid bug, if you spam just 1 move consecutively you will trick the ai into always picking the wrong move against you. So essentially beating the system. Might remove this later. Also the way I have implemented this is also very stupid so def getting removed next patch.
 </details>
