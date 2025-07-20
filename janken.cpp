@@ -58,8 +58,19 @@ char getAntiHumanMove() {
 }
 
 char getMarkovMove() {
-    if (playerHistory.size() >= 3 && isRepeatingPattern()) {
-        return getAntiHumanMove();
+    if (playerHistory.size() >= 4) {
+        bool allSame = true;
+        char lastMove = playerHistory.back();
+        for (int i = playerHistory.size()-2; i >= max(0, (int)playerHistory.size()-4); i--) {
+            if (playerHistory[i] != lastMove) {
+                allSame = false;
+                break;
+            }
+        }
+        
+        if (allSame) {
+            return counterMove(lastMove);
+        }
     }
 
     if (playerHistory.size() < 2) {

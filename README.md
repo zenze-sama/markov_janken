@@ -21,5 +21,8 @@ I intend to refine this a little more, so I'll make a changelog here.
    - Made getFrequencyBasedMove, this makes it so that in early game, when no patterns are found, it is not relied on a random move, rather we can count the most common move from the player in playerHistory and use that, if empty, use random move.
 
    - Made isRepeatingPattern and getAntiHumanMove, it checks if the last move is repeated 3 times, if yes then it refrains from countering the same move again because humans dont use the same move 3 times a row. But this makes a stupid bug, if you spam just 1 move consecutively you will trick the ai into always picking the wrong move against you. So essentially beating the system (The idea sounded better in my head, trust). Might remove this later. Also the way I have implemented this is also very stupid so def getting removed next patch.
+
+- 3
+   - Upgraded getMarkovMove with a spam detection logic. Also one little thing, either I am really predictable or this is actualy really good at predicting stuff. In my test runs I have been unable to beat this even though I know how it works.
    
 </details>
