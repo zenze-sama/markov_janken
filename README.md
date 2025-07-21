@@ -25,4 +25,6 @@ I intend to refine this a little more, so I'll make a changelog here.
 - 3
    - Upgraded getMarkovMove with a spam detection logic. Also one little thing, either I am really predictable or this is actualy really good at predicting stuff. In my test runs I have been unable to beat this even though I know how it works.
    
+- 4
+   -  
 </details>

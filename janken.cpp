@@ -5,6 +5,7 @@
 #include <ctime>
 #include <algorithm>
 #include <numeric>
+#include <windows.h>
 
 using namespace std;
 
@@ -16,6 +17,23 @@ map<pair<char, char>, map<char, int>> patternCounts;
 int playerWins = 0;
 int markovWins = 0;
 int ties = 0;
+
+void clearScreen() {
+    #ifdef _WIN32
+        system("cls");
+    #else
+        system("clear");
+    #endif
+}
+
+void displayHeader() {
+    clearScreen();
+    cout << "----------------------------------------" << endl;
+    cout << "  Rock-Paper-Scissors (Markov Chain AI) " << endl;
+    cout << "----------------------------------------" << endl;
+    cout << "  You: " << playerWins << "  |  Markov: " << markovWins << "  |  Ties: " << ties << endl;
+    cout << "----------------------------------------" << endl << endl;
+}
 
 char counterMove(char move) {
     if (move == 'R') return 'P';
@@ -36,25 +54,6 @@ char getFrequencyBasedMove() {
     char mostCommon = max_element(freq.begin(), freq.end(), 
         [](const auto& a, const auto& b) { return a.second < b.second; })->first;
     return counterMove(mostCommon);
-}
-
-bool isRepeatingPattern() {
-    if (playerHistory.size() < 3) return false;
-    char prev1 = playerHistory.back();
-    char prev2 = playerHistory[playerHistory.size() - 2];
-    char prev3 = playerHistory[playerHistory.size() - 3];
-    return (prev1 == prev2 && prev2 == prev3);
-}
-
-char getAntiHumanMove() {
-    char repeatedMove = playerHistory.back();
-    vector<char> options;
-    for (char move : MOVES) {
-        if (move != repeatedMove) {
-            options.push_back(move);
-        }
-    }
-    return counterMove(options[rand() % options.size()]);
 }
 
 char getMarkovMove() {
@@ -112,11 +111,11 @@ string getWinner(char player, char markov) {
 int main() {
     srand(time(0));
 
-    cout << "Rock-Paper-Scissors (Markov Chain Version)" << endl;
-    cout << "Enter R (Rock), P (Paper), or S (Scissors). Q to quit." << endl;
-
     while (true) {
-        cout << "\nYour move: ";
+        displayHeader();
+        cout << "Enter R (Rock), P (Paper), or S (Scissors). Q to quit." << endl;
+        cout << "Your move: ";
+        
         char playerMove;
         cin >> playerMove;
         playerMove = toupper(playerMove);
@@ -124,14 +123,20 @@ int main() {
         if (playerMove == 'Q') break;
         if (find(MOVES.begin(), MOVES.end(), playerMove) == MOVES.end()) {
             cout << "Invalid move! Try R, P, or S." << endl;
+            Sleep(1000);
             continue;
         }
 
         char markovMove = getMarkovMove();
-        cout << "Markov chose: " << markovMove << endl;
-
         string result = getWinner(playerMove, markovMove);
-        cout << result << endl;
+
+        displayHeader();
+        cout << "You played: " << playerMove << endl;
+        cout << "Markov chose: " << markovMove << endl;
+        cout << result << endl << endl;
+        cout << "Press Enter to continue...";
+        cin.ignore();
+        cin.get();
 
         if (playerHistory.size() >= 2) {
             char prev2 = playerHistory[playerHistory.size() - 2];
@@ -142,6 +147,7 @@ int main() {
         playerHistory.push_back(playerMove);
     }
 
+    displayHeader();
     cout << "\nGame over! Final results:" << endl;
     cout << "You won: " << playerWins << " times" << endl;
     cout << "Markov won: " << markovWins << " times" << endl; 
