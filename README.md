@@ -26,5 +26,10 @@ I intend to refine this a little more, so I'll make a changelog here.
    - Upgraded getMarkovMove with a spam detection logic. Also one little thing, either I am really predictable or this is actualy really good at predicting stuff. In my test runs I have been unable to beat this even though I know how it works.
    
 - 4
-   -  
+   - Removed scrolling text because its stupid.
+   
+   - Score display on top, qol fr
+
+   - Hardcoded a 1 second delay when the erong move error is displayed for absolutely no reason :100:
+
 </details>
