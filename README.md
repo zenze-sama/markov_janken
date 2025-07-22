@@ -30,6 +30,6 @@ I intend to refine this a little more, so I'll make a changelog here.
    
    - Score display on top, qol fr
 
-   - Hardcoded a 1 second delay when the erong move error is displayed for absolutely no reason :100:
+   - Hardcoded a 1 second delay when the wrong move error is displayed for absolutely no reason :100:
 
 </details>
