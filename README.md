@@ -17,9 +17,7 @@ I intend to refine this a little more, so I'll make a changelog here.
 
 - 2
    - Made counterMove, to get a counter move, duh.
-   
    - Made getFrequencyBasedMove, this makes it so that in early game, when no patterns are found, it is not relied on a random move, rather we can count the most common move from the player in playerHistory and use that, if empty, use random move.
-
    - Made isRepeatingPattern and getAntiHumanMove, it checks if the last move is repeated 3 times, if yes then it refrains from countering the same move again because humans dont use the same move 3 times a row. But this makes a stupid bug, if you spam just 1 move consecutively you will trick the ai into always picking the wrong move against you. So essentially beating the system (The idea sounded better in my head, trust). Might remove this later. Also the way I have implemented this is also very stupid so def getting removed next patch.
 
 - 3
@@ -27,9 +25,11 @@ I intend to refine this a little more, so I'll make a changelog here.
    
 - 4
    - Removed scrolling text because its stupid.
-   
    - Score display on top, qol fr
-
    - Hardcoded a 1 second delay when the erong move error is displayed for absolutely no reason :100:
+
+- 5
+   - Made a player history "dynamic board" that changes with every turn! Aesthetic fr.
+   - You can now see what moves of yours markov predicted by using the -lp flag (short for learned patterns). Btw this entire file output system, like making the markov_patterns.txt file and saving was made with Deepseek, I tried making it myself but wasted 5 hours on it for some reason :100: .
 
 </details>
